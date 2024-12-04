@@ -1,13 +1,42 @@
+const prompt = require('prompt-sync')();
+let getHumanChoice = prompt("your choice: ").toLowerCase();
 function getComputerChoice  () {
-   return Math.floor(Math.random() * 3);
+   const randomNumber = Math.floor(Math.random() * 3);
+    if (randomNumber === 0) {
+    return("rock");
+    }
+    else if (randomNumber === 1) {
+    return("paper");
+    }
+    else {
+    return("scissors")
+    }
 }
 
-if (getComputerChoice() === 0) {
-    console.log("rock");
+const computerChoice = getComputerChoice();
+console.log("Computer choice: " + computerChoice);
+
+let humanScore = 0
+
+let computerScore = 0
+
+function playRound(humanChoice, computerChoice) {
+    if (humanChoice === computerChoice) {
+        console.log("tie!")
+    }
+    else if (
+        (computerChoice === "rock" && humanChoice === "scissors") ||
+        (computerChoice === "paper" && humanChoice === "rock") ||
+        (computerChoice === "scissors" && humanChoice === "paper")
+    ) {
+        console.log("you loose!")
+    }
+    else {
+        console.log("you win!")
+    }
 }
-else if (getComputerChoice() === 1) {
-    console.log("paper");
-}
-else {
-    console.log("scissors")
-}
+  
+const humanSelection = getHumanChoice;
+const computerSelection = computerChoice;
+ 
+playRound(humanSelection, computerSelection);
