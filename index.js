@@ -1,21 +1,14 @@
 const prompt = require("prompt-sync")();
 
 // Function to get human choice
-function getHumanChoice() {
-    return prompt("Your choice (rock, paper, scissors): ").toLowerCase();
+function getHumanChoice () {
+    let choice;
+    do {
+        choice = prompt("Your choice (rock, paper or scissors): ")
+    } while (choice !== "rock" && choice !== "paper" && choice !== "scissors")
+    return choice;
 }
 
-// Logic to get human choice
-let humanChoice = getHumanChoice();
-
-// Start the loop to get a valid human choice
-do {
-    console.log(`You entered: ${humanChoice}`);
-} while (
-    humanChoice !== "rock" &&
-    humanChoice !== "paper" &&
-    humanChoice !== "scissors"
-);
 
 //make func to get comp choice
 function getComputerChoice () {
@@ -30,30 +23,48 @@ function getComputerChoice () {
         return("scissors")
         }    
 }
-const computerChoice = getComputerChoice();
-console.log("Computer choice: " + computerChoice);
 
 
 //vars to track scores
-var humanScore = 0
-var computerScore = 0
+let humanScore = 0
+let computerScore = 0
 
 
-//logic to play a single round
-function playRound (humanChoice, computerChoice) {
+//logic to play a round
+function playRound() {
+    const humanChoice = getHumanChoice(); // Get the human's choice
+    const computerChoice = getComputerChoice(); // Get the computer's choice
+    console.log("Computer choice: " + computerChoice);
+  
     if (humanChoice === computerChoice) {
-        console.log("tie!")
+      console.log("tie!");
+    } else if ((computerChoice === "rock" && humanChoice === "scissors") ||
+               (computerChoice === "paper" && humanChoice === "rock") ||
+               (computerChoice === "scissors" && humanChoice === "paper")) {
+      console.log("you lose!");
+      computerScore++; // Increment computer's score
+    } else {
+      console.log("you win!");
+      humanScore++; // Increment human's score
     }
-    else if (
-        (computerChoice === "rock" && humanChoice === "scissors") ||
-        (computerChoice === "paper" && humanChoice === "rock") ||
-        (computerChoice === "scissors" && humanChoice === "paper")
-    ) {
-        console.log("you lose!")
+  }
+
+
+
+//logic to play multiple rounds
+
+function playGame (times) {
+    for (let i = 0; i < times; i++) {
+        playRound();
     }
-    else {
-        console.log("you win!")
-    }
+    console.log("Final score: Human - " + humanScore + ", Computer - " + computerScore);
+  if (humanScore > computerScore) {
+    console.log("You win the game!");
+  } else if (humanScore < computerScore) {
+    console.log("Computer wins the game!");
+  } else {
+    console.log("It's a tie game!");
+  }
 }
 
-playRound(humanChoice, computerChoice)
+playGame(5)
