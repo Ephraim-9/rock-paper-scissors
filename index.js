@@ -1,12 +1,13 @@
-const prompt = require("prompt-sync")();
-
 // Function to get human choice
 function getHumanChoice () {
-    let choice;
-    do {
-        choice = prompt("Your choice (rock, paper or scissors): ")
-    } while (choice !== "rock" && choice !== "paper" && choice !== "scissors")
-    return choice;
+  const buttonList = document.getElementById("buttonList");
+
+  buttonList.addEventListener("click", function(event){
+    if (event.target.tagName === "BUTTON") {
+      const playerSelection = event.target.textContent;
+      playRound(playerSelection);
+    }
+  });
 }
 
 
@@ -31,40 +32,40 @@ let computerScore = 0
 
 
 //logic to play a round
-function playRound() {
-    const humanChoice = getHumanChoice(); // Get the human's choice
+function playRound(playerSelection) {
     const computerChoice = getComputerChoice(); // Get the computer's choice
-    console.log("Computer choice: " + computerChoice);
-  
-    if (humanChoice === computerChoice) {
-      console.log("tie!");
-    } else if ((computerChoice === "rock" && humanChoice === "scissors") ||
-               (computerChoice === "paper" && humanChoice === "rock") ||
-               (computerChoice === "scissors" && humanChoice === "paper")) {
-      console.log("you lose!");
-      computerScore++; // Increment computer's score
+    const compScore = document.getElementById("compScore");
+    const humScore = document.getElementById("humScore"); 
+    const resultDiv = document.getElementById("result");
+    const winDiv = document.getElementById("winner");
+    if (playerSelection === computerChoice) {
+        resultDiv.textContent = "It's a tie!";
+    } else if ((computerChoice === "rock" && playerSelection === "scissors") ||
+               (computerChoice === "paper" && playerSelection === "rock") ||
+               (computerChoice === "scissors" && playerSelection === "paper")) {
+        resultDiv.textContent = "You lose! Computer chose " + computerChoice;
+        computerScore++; // Increment computer's score
+
+
     } else {
-      console.log("you win!");
-      humanScore++; // Increment human's score
+        resultDiv.textContent = "You win! Computer chose " + computerChoice;
+        humanScore++; // Increment human's score
+
+    }
+    compScore.textContent = "Computer score: " + computerScore;
+    humScore.textContent = "Human score: " + humanScore;
+    if (humanScore >= 5) {
+      computerScore = 0;
+      humanScore = 0;
+      winDiv.textContent = "You won the game!";
+    }
+    else if (computerScore >= 5) {
+      computerScore = 0;
+      humanScore = 0;
+      winDiv.textContent = "Computer won the game!";
     }
   }
 
-
-
-//logic to play multiple rounds
-
-function playGame (times) {
-    for (let i = 0; i < times; i++) {
-        playRound();
-    }
-    console.log("Final score: Human - " + humanScore + ", Computer - " + computerScore);
-  if (humanScore > computerScore) {
-    console.log("You win the game!");
-  } else if (humanScore < computerScore) {
-    console.log("Computer wins the game!");
-  } else {
-    console.log("It's a tie game!");
-  }
-}
-
-playGame(5)
+  document.addEventListener("DOMContentLoaded", function() {
+    getHumanChoice(); // Call your function here
+});
