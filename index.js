@@ -67,5 +67,5 @@ function playRound(playerSelection) {
   }
 
   document.addEventListener("DOMContentLoaded", function() {
-    getHumanChoice(); // Call your function here
+    getHumanChoice();
 });
